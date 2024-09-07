@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'socialapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'socialapp',    # Replace with your database name
+        'USER': 'root',   # Replace with your MySQL username
+        'PASSWORD': 'abubakr9',  # Replace with your MySQL password
+        'HOST': 'localhost',            # Replace with your MySQL host, if necessary
+        'PORT': '3306',                 # Replace with your MySQL port, if necessary
     }
 }
 
