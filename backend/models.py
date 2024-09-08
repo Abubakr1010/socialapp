@@ -1,8 +1,7 @@
 from django.db import models
 
 
-# Create your models here.
-
+# user model
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
@@ -13,6 +12,7 @@ class User(models.Model):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+# post model
 class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -21,7 +21,7 @@ class Post(models.Model):
     post_image = models.URLField(max_length=250)
     likes = models.IntegerField()
 
-
+#comment model
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
