@@ -22,7 +22,11 @@ class Post(models.MOdels):
     likes = models.IntegerField()
 
 
-
+class Comments(models.Model):
+    comment_id = models.IntegerField(primary=True)
+    post_id = models.ForeignKey(Post)
+    user_id = models.ForeignKey(User)
+    text = models.CharField(max_legnth=500)
 
 
 
