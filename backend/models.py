@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 
 # user model
@@ -11,6 +12,10 @@ class User(models.Model):
     profile_image = models.URLField(max_length=250)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
 
 # post model
 class Post(models.Model):
