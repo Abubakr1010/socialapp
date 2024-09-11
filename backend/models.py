@@ -9,7 +9,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=20)
-    profile_image = models.URLField(max_length=250)
+    profile_image = models.ImageField(upload_to='profile_images/')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
