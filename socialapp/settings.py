@@ -130,5 +130,25 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# Amazon S3 settings
+AWS_ACCESS_KEY_ID = 'AKIA5JMST3N3M2BRME4K'
+AWS_SECRET_ACCESS_KEY = '/zUNKG4E3HE1LzBnsfCby7tj/MKT4neB6CuZxlRQ'
+AWS_STORAGE_BUCKET_NAME = 'socialapp1010'
+AWS_S3_REGION_NAME = 'eu-north-1'  # e.g., 'us-east-1'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# Static files (CSS, JavaScript, images)
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+
+# Media files (uploads)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+# Optional: Additional settings
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+
+
+
