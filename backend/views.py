@@ -6,7 +6,7 @@ from rest_framework.response import Response
 # Create your views here.
 
 
-#signuo view
+#signup view
 class SignupViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def signup(self,request):
