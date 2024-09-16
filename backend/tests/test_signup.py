@@ -6,7 +6,7 @@ from backend.models import User
 
 
 
-
+# Test 1
 @pytest.mark.django_db
 def test_if_user_signedin_return_201():
     first_name = 'jack'
@@ -40,7 +40,7 @@ def test_if_user_signedin_return_201():
     assert response.data == expected_data
 
 
-
+# Test 2
 @pytest.mark.django_db
 def test_if_already_registered_email_return_400():
     first_name = 'jack'

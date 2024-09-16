@@ -4,7 +4,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.contrib.auth.models import Group, Permission
 
 
-# user model
+# User Model
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """Create and return a regular user with an email and password."""
@@ -28,6 +28,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
     
+   
 class User(AbstractBaseUser, PermissionsMixin):
         user_id = models.AutoField(primary_key=True)
         first_name = models.CharField(max_length=50)
@@ -57,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             blank=True,
         )
 
-# post model
+# Post Model
 class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -66,7 +67,7 @@ class Post(models.Model):
     post_image = models.URLField(max_length=250)
     likes = models.IntegerField()
 
-#comment model
+# Comment Model
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

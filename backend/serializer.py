@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 
 
+# Signup Serializer
 class Signup(serializers.ModelSerializer):
 
     class Meta:
@@ -19,6 +20,10 @@ class Signup(serializers.ModelSerializer):
 
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError({"email":"User with this email already exists"})
+        
+        password = data.get('password')
+        if len(password) < 7:
+            return serializers.ValidationError({"password":"Password must be at least 7 character long "})
         
         return data
 
