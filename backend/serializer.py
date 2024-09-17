@@ -26,6 +26,9 @@ class Signup(serializers.ModelSerializer):
             return serializers.ValidationError({"password":"Password must be at least 7 character long "})
         
         return data
+    
+class Login(serializers.ModelSerializer):
+    
 
 
 
