@@ -27,7 +27,7 @@ class Signup(serializers.ModelSerializer):
         
         return data
     
-class Login(serializers.ModelSerializer):
+
     
 
 
