@@ -39,6 +39,15 @@ class LoginViewSetTest(APITestCase):
         response = self.client.post(self.login_url,data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_login_wrong_email_return_404(self):
+        data = {
+            'email':'jack@gmail.com',
+            'password':'password123'
+        }
+
+        response = self.client.post(self.login_url, data)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 
 
