@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Post
 
 
 # Signup Serializer
@@ -26,6 +26,19 @@ class Signup(serializers.ModelSerializer):
             return serializers.ValidationError({"password":"Password must be at least 7 character long "})
         
         return data
+    
+
+class HomeViewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ['post_text','post_image']
+
+    
+    def create_post(self):
+
+
+    
     
 
     

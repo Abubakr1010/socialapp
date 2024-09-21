@@ -60,7 +60,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     post_text = models.CharField(max_length=500)
     post_image = models.URLField(max_length=250)
-    likes = models.IntegerField()
+    likes = models.IntegerField(default=0)
 
 # Comment Model
 class Comment(models.Model):
