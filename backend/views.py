@@ -58,5 +58,10 @@ class SomeSecureView(viewsets.ViewSet):
      @action(detail=False, method=['get'])
      def secure_data(self,request):
           return Response({"data":"This is secured view!"})
+     
 
 
+
+class Home(viewsets.ViewSet):
+
+     
