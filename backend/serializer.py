@@ -28,14 +28,14 @@ class Signup(serializers.ModelSerializer):
         return data
     
 
-class HomeViewSerializer(serializers.ModelSerializer):
+# class HomeViewSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Post
-        fields = ['post_text','post_image']
+#     class Meta:
+#         model = Post
+#         fields = ['post_text','post_image']
 
     
-    def create_post(self):
+#     def create_post(self):
 
 
     

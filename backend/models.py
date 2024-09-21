@@ -58,8 +58,8 @@ class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    post_text = models.CharField(max_length=500)
-    post_image = models.URLField(max_length=250)
+    post_text = models.CharField(max_length=500, blank=True, null=True)
+    post_image = models.URLField(max_length=250, blank=True, null=True)
     likes = models.IntegerField(default=0)
 
 # Comment Model

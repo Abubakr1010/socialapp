@@ -62,7 +62,7 @@ class SomeSecureView(viewsets.ViewSet):
 
 
 
-class Home(viewsets.ViewSet):
-     
+# class Home(viewsets.ViewSet):
+
 
      
