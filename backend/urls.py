@@ -10,6 +10,8 @@ router = routers.DefaultRouter()
 router.register('signup', views.SignupViewSet, basename='signup')
 router.register('login', views.LoginViewSet, basename='login')
 
+
+
 urlpatterns = [
     path('', include(router.urls)),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
