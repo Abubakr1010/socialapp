@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializer import Signup, CreatePostSerializer
+from .serializer import Signup
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -60,19 +60,35 @@ class SomeSecureView(viewsets.ViewSet):
           return Response({"data":"This is secured view!"})
      
 
+class HomeViewSet(viewsets.ViewSet):  
+
+     @action(detail=True, methods=['get'], url_path='home')
+     def home(self, request, login_pk=None):
+        user = request.user
+        return Response({"message": "WELCOME"}, status=status.HTTP_200_OK)
+     
 
 
-class CreatePostView(viewsets.ViewSet):
-     permission_classes = [IsAuthenticated]
 
 
-     def post(self,request):
-          serializer = CreatePostSerializer(data=request.data)
 
-          if serializer.is_valid():
-               serializer.save(user=request.data)
-               return Response(serializer.data, status=status.HTTP_201_CREATED)
-          return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+# class CreatePostViewSet(viewsets.ViewSet):
+#      # permission_classes = [IsAuthenticated]
+
+
+#      def create(self,request):
+#           serializer = CreatePostSerializer(data=request.data)
+
+#           if serializer.is_valid():
+#                serializer.save(user=request.user)
+#                return Response(serializer.data, status=status.HTTP_201_CREATED)
+#           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
 
