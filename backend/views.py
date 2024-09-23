@@ -62,10 +62,10 @@ class SomeSecureView(viewsets.ViewSet):
 
 class HomeViewSet(viewsets.ViewSet):  
 
-     @action(detail=True, methods=['get'], url_path='home')
+     @action(detail=False, methods=['get'], url_path='home')
      def home(self, request, login_pk=None):
-        user = request.user
-        return Response({"message": "WELCOME"}, status=status.HTTP_200_OK)
+          user = request.user
+          return Response({"message": "WELCOME"}, status=status.HTTP_200_OK)
      
 
 
