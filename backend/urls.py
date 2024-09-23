@@ -13,6 +13,8 @@ router.register('login', views.LoginViewSet, basename='login')
 login_router = routers.NestedDefaultRouter(router, 'login', lookup='login')
 login_router.register('home', views.HomeViewSet, basename='home')
 
+login_router.register('home/post', views.PostViewSet, 'post')
+
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(login_router.urls)),

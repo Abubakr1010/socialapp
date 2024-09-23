@@ -28,11 +28,11 @@ class Signup(serializers.ModelSerializer):
         return data
     
 
-# class CreatePostSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
 
-#     class Meta:
-#         model = Post
-#         fields = ['user','post_text','post_image']
+    class Meta:
+        model = Post
+        fields = ['post_id','post_text','post_image','likes','created']
 
 
 

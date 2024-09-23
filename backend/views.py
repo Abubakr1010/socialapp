@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .serializer import Signup
+from .serializer import Signup, PostSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from .models import User
+from .models import User, Post
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 
@@ -69,26 +69,24 @@ class HomeViewSet(viewsets.ViewSet):
      
 
 
+class PostViewSet(viewsets.ViewSet):
+     permission_classes = [IsAuthenticated]
+
+     def list(self,request, login_pk=None):
+          user = request.user
+          posts = Post.objects.filter(user=user)
+          serialiser = PostSerializer(posts,many=True)
+          return Response(serialiser.data)
 
 
 
+     def create(self,request):
+          serializer = PostSerializer(data=request.data)
 
-
-
-
-
-
-# class CreatePostViewSet(viewsets.ViewSet):
-#      # permission_classes = [IsAuthenticated]
-
-
-#      def create(self,request):
-#           serializer = CreatePostSerializer(data=request.data)
-
-#           if serializer.is_valid():
-#                serializer.save(user=request.user)
-#                return Response(serializer.data, status=status.HTTP_201_CREATED)
-#           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+          if serializer.is_valid():
+               serializer.save(user=request.user)
+               return Response(serializer.data, status=status.HTTP_201_CREATED)
+          return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
 
