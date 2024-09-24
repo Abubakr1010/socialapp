@@ -13,7 +13,7 @@ router.register('login', views.LoginViewSet, basename='login')
 login_router = routers.NestedDefaultRouter(router, 'login', lookup='login')
 login_router.register('home', views.HomeViewSet, basename='home')
 
-login_router.register('home/post', views.PostViewSet, 'post')
+login_router.register('home/createpost', views.CreatePostViewSet, 'createpost')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
+
 

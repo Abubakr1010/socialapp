@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from .models import User, Post
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 #signup view
@@ -16,7 +16,7 @@ class SignupViewSet(viewsets.ViewSet):
             serializer = Signup(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
-                response_data= {"user_id": user.user_id, **serializer.data}
+                response_data= {"id": user.id, **serializer.data}
                 return Response(response_data, status= status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -45,7 +45,7 @@ class LoginViewSet(viewsets.ViewSet):
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         return Response({
-             'user_id': user.user_id,
+             'id': user.id,
              'email': user.email,
              'refresh': str(refresh),
              'access': access_token},
@@ -60,27 +60,23 @@ class SomeSecureView(viewsets.ViewSet):
           return Response({"data":"This is secured view!"})
      
 
-class HomeViewSet(viewsets.ViewSet):  
+class HomeViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
-     @action(detail=False, methods=['get'], url_path='home')
-     def home(self, request, login_pk=None):
-          user = request.user
-          return Response({"message": "WELCOME"}, status=status.HTTP_200_OK)
-     
+    @action(detail=False, methods=['get'], url_path='home')
+    def home(self, request, login_pk=None):
+        user = request.user 
+        posts = Post.objects.filter(user=user)
+        serializer = PostSerializer(posts, many=True)
+        return Response({"message": "WELCOME", "posts": serializer.data, "user":user}, status=status.HTTP_200_OK)
 
 
-class PostViewSet(viewsets.ViewSet):
+
+class CreatePostViewSet(viewsets.ViewSet):
      permission_classes = [IsAuthenticated]
 
-     def list(self,request, login_pk=None):
-          user = request.user
-          posts = Post.objects.filter(user=user)
-          serialiser = PostSerializer(posts,many=True)
-          return Response(serialiser.data)
-
-
-
-     def create(self,request):
+     @action(detail=True, methods=['post'])
+     def create_post(self,request, login_pk=None):
           serializer = PostSerializer(data=request.data)
 
           if serializer.is_valid():
