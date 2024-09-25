@@ -61,19 +61,32 @@ class SomeSecureView(viewsets.ViewSet):
      
 
 class HomeViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+#     permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=['get'], url_path='home')
     def home(self, request, login_pk=None):
-        user = request.user 
+        try:
+            # Fetch the user from the provided login_pk
+            user = User.objects.get(pk=login_pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Now filter the posts by this user
         posts = Post.objects.filter(user=user)
+        
+        # Serialize the posts
         serializer = PostSerializer(posts, many=True)
-        return Response({"message": "WELCOME", "posts": serializer.data, "user":user}, status=status.HTTP_200_OK)
+        
+        # Return the response with user data and posts
+        return Response({
+            "message": "WELCOME", 
+            "posts": serializer.data, 
+            "user": user.username  # You can return user info here
+        }, status=status.HTTP_200_OK)
 
 
 
 class CreatePostViewSet(viewsets.ViewSet):
-     permission_classes = [IsAuthenticated]
+     # permission_classes = [IsAuthenticated]
 
      @action(detail=True, methods=['post'])
      def create_post(self,request, login_pk=None):
