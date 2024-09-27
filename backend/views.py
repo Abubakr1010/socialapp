@@ -60,6 +60,7 @@ class SomeSecureView(viewsets.ViewSet):
           return Response({"data":"This is secured view!"})
      
 
+# User Home Screen
 class HomeViewSet(viewsets.ViewSet):
 #     permission_classes = [IsAuthenticated]
 
