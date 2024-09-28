@@ -86,17 +86,17 @@ class HomeViewSet(viewsets.ViewSet):
 
 
 
-class CreatePostViewSet(viewsets.ViewSet):
-     # permission_classes = [IsAuthenticated]
+# class CreatePostViewSet(viewsets.ViewSet):
+#      # permission_classes = [IsAuthenticated]
 
-     @action(detail=True, methods=['post'])
-     def create_post(self,request, login_pk=None):
-          serializer = PostSerializer(data=request.data)
+#      @action(detail=True, methods=['post'])
+#      def create_post(self,request, login_pk=None):
+#           serializer = PostSerializer(data=request.data)
 
-          if serializer.is_valid():
-               serializer.save(user=request.user)
-               return Response(serializer.data, status=status.HTTP_201_CREATED)
-          return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#           if serializer.is_valid():
+#                serializer.save(user=request.user)
+#                return Response(serializer.data, status=status.HTTP_201_CREATED)
+#           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
 
