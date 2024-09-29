@@ -60,13 +60,14 @@ class SomeSecureView(viewsets.ViewSet):
           return Response({"data":"This is secured view!"})
      
 
+# User Home Screen
 class HomeViewSet(viewsets.ViewSet):
 #     permission_classes = [IsAuthenticated]
 
-    def home(self, request, login_pk=None):
+    def home(self, request, pk=None):
         try:
             # Fetch the user from the provided login_pk
-            user = User.objects.get(pk=login_pk)
+            user = User.objects.get(pk=pk)
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -80,7 +81,7 @@ class HomeViewSet(viewsets.ViewSet):
         return Response({
             "message": "WELCOME", 
             "posts": serializer.data, 
-            "user": user.username  # You can return user info here
+            "user": user.id  # You can return user info here
         }, status=status.HTTP_200_OK)
 
 
