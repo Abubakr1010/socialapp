@@ -66,22 +66,16 @@ class HomeViewSet(viewsets.ViewSet):
 
     def home(self, request, pk=None):
         try:
-            # Fetch the user from the provided login_pk
             user = User.objects.get(pk=pk)
         except User.DoesNotExist:
             return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Now filter the posts by this user
         posts = Post.objects.filter(user=user)
-        
-        # Serialize the posts
         serializer = PostSerializer(posts, many=True)
-        
-        # Return the response with user data and posts
         return Response({
             "message": "WELCOME", 
             "posts": serializer.data, 
-            "user": user.id  # You can return user info here
+            "user": user.id 
         }, status=status.HTTP_200_OK)
 
 
@@ -90,14 +84,17 @@ class CreatePostViewSet(viewsets.ViewSet):
      # permission_classes = [IsAuthenticated]
 
      @action(detail=True, methods=['post'])
-     def create_post(self,request, login_pk=None):
+     def create_post(self,request, pk=None):
+          user = User.objects.get(pk=pk)
           serializer = PostSerializer(data=request.data)
 
           if serializer.is_valid():
-               serializer.save(user=request.user)
-               return Response(serializer.data, status=status.HTTP_201_CREATED)
+               serializer.save(user=user)
+               return Response({"user":user.id,
+                                "serializer":serializer.data,
+                                },
+                                status=status.HTTP_201_CREATED)
           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
-
 
      

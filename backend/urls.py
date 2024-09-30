@@ -9,6 +9,7 @@ urlpatterns = [
     path('signup/', views.SignupViewSet.as_view({'post': 'signup'}, name='signup')),
     path('login/', views.LoginViewSet.as_view({'post': 'login'}), name='login'),
     path('home/<int:pk>/', views.HomeViewSet.as_view({'get':'home'}), name='home'),
+    path('create_post/<int:pk>/', views.CreatePostViewSet.as_view({'post':'create_post'}), name='create_post'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
