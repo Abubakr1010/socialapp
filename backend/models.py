@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         profile_image = models.URLField(max_length=500, blank=True, null=True)
         is_active = models.BooleanField(default=True)
         is_staff = models.BooleanField(default=False)
+        friend = models.ManyToManyField('self',symmetrical=False,blank=True)
 
         objects = CustomUserManager()
         USERNAME_FIELD = 'email'
