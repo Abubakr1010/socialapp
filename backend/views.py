@@ -97,4 +97,23 @@ class CreatePostViewSet(viewsets.ViewSet):
           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
+class SinglePostViewSet(viewsets.ViewSet):
      
+     @action(detail=True, method=['Get','Delete'])
+     def single_post(self,request, pk=None, post_id=None):
+          user = User.objects.get(pk=pk)
+          post = Post.objects.get(pk=post_id, user=user)
+
+          if request.method == 'GET':
+            serializer = PostSerializer(post)
+            return Response({"user":user.id,
+                                "post":serializer.data
+                                },
+                                status=status.HTTP_200_OK)
+          
+          if request.method == 'DELETE':
+               post.delete()
+               return Response({'message',f'post {post.post_text} deleted successfully'},
+                               status=status.HTTP_200_OK)
+     
+        
