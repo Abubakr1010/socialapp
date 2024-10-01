@@ -116,4 +116,15 @@ class SinglePostViewSet(viewsets.ViewSet):
                return Response({'message',f'post {post.post_text} deleted successfully'},
                                status=status.HTTP_200_OK)
      
-        
+
+
+class UserAllPosts(viewsets.ViewSet):
+     
+     @action(detail=True, methods=['Get'])
+     def all_posts(self,request,pk=None):
+          user = User.objects.get(pk=pk)
+          posts = Post.objects.filter(user=user)
+          serializer = PostSerializer(posts, many=True)
+          return Response({"user":user.id,
+                           "post":serializer.data},
+                           status=status.HTTP_200_OK)
