@@ -139,10 +139,13 @@ class SearchViewSet(viewsets.ViewSet):
      @action(detail=True, methods=['Post'])
      def search(self,request,pk=None):
           user = User.objects.get(pk=pk)
-          all_users = User.objects.filter()
+          first_name = request.data.get('first_name', '')
+          if first_name:
+               all_users = User.objects.filter(first_name__icontains=first_name)
+          else:
+               return Response({"error":"Please provide a first name"}, status=status.HTTP_400_BAD_REQUEST)
           serializer = UserSerializer(all_users, many=True)
-          return Response({"users":user.id,
+          return Response({
                           "serializer": serializer.data,
                            },
                           status=status.HTTP_200_OK)
-          
