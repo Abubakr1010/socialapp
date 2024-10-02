@@ -15,6 +15,7 @@ urlpatterns = [
                                          'delete':'single_post'}), 
                                          name='create_post'),
     path('all_posts/<int:pk>/', views.UserAllPosts.as_view({'get':'all_posts'}), name='all_posts'),
+    path('search/<int:pk>/', views.SearchViewSet.as_view({'post':'search'}), name='search'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

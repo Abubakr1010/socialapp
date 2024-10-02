@@ -72,6 +72,3 @@ class Comment(models.Model):
 
 
 
-
-
-

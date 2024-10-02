@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializer import Signup, PostSerializer
+from .serializer import Signup, PostSerializer, UserSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -125,6 +125,24 @@ class UserAllPosts(viewsets.ViewSet):
           user = User.objects.get(pk=pk)
           posts = Post.objects.filter(user=user)
           serializer = PostSerializer(posts, many=True)
+          friends = user.friend.count()
           return Response({"user":user.id,
-                           "post":serializer.data},
+                           "friends":friends,
+                           "post":serializer.data,
+                           },
                            status=status.HTTP_200_OK)
+     
+
+
+class SearchViewSet(viewsets.ViewSet):
+     
+     @action(detail=True, methods=['Post'])
+     def search(self,request,pk=None):
+          user = User.objects.get(pk=pk)
+          all_users = User.objects.filter()
+          serializer = UserSerializer(all_users, many=True)
+          return Response({"users":user.id,
+                          "serializer": serializer.data,
+                           },
+                          status=status.HTTP_200_OK)
+          
