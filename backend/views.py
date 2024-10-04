@@ -4,9 +4,10 @@ from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from .models import User, Post
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from .models import User, Post
+from django.shortcuts import get_object_or_404
 
 
 #signup view
@@ -149,3 +150,22 @@ class SearchViewSet(viewsets.ViewSet):
                           "serializer": serializer.data,
                            },
                           status=status.HTTP_200_OK)
+
+
+class FriendRequestViewSet(viewsets.ViewSet):
+
+     @action(detail=True, methods=['Post'])
+     def friend_request(self,request,pk=None, friend_pk=None):
+          user = User.objects.get(pk=pk)
+          new_friend = get_object_or_404(User, pk=friend_pk)
+
+
+          if new_friend in user.friend.all():
+               return Response({'Detail':'Already friends'}, status=status.HTTP_400_BAD_REQUEST)
+          
+          user.friend.add(new_friend)
+
+          return Response({"Detail":f"Successfully {new_friend} added"}, status=status.HTTP_200_OK)
+          
+
+          
