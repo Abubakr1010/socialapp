@@ -186,3 +186,16 @@ class AllFriendsViewSet(viewsets.ViewSet):
                            }, status=status.HTTP_200_OK)
      
 
+class DeleteFriend(viewsets.ViewSet):
+
+     @action(detail=True, method=['DELETE'])
+     def delete_friend(self,request,pk=None, friend_pk=None):
+
+          user = User.objects.get(pk=pk)
+          friend = User.objects.get(pk=friend_pk)
+
+          if friend in user.friend.all():
+               user.friend.remove(friend)
+               return Response({"message":f"you friend {friend} is no more your friend which is sad"})
+     
+
