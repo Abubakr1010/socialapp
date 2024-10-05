@@ -169,3 +169,20 @@ class FriendRequestViewSet(viewsets.ViewSet):
           
 
           
+class AllFriendsViewSet(viewsets.ViewSet):
+     
+     @action(detail=True, methods=['Get'])
+     def all_friends(self,request, pk=None):
+          user = User.objects.get(pk=pk)
+          friends = user.friend.all()
+          number_of_friends = user.friend.count()
+
+          user_serializer = UserSerializer(user)
+          friends_serializer = UserSerializer(friends, many=True)
+
+          return Response({"user":user_serializer.data,
+                           "number_of_friend":number_of_friends,
+                           "friends":friends_serializer.data
+                           }, status=status.HTTP_200_OK)
+     
+
