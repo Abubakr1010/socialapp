@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Post
+from .models import User, Post, Comment
 
 
 # Signup Serializer
@@ -37,11 +37,19 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id','first_name','last_name','email']
 
 
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['comment_id', 'text']
+
+
 class PostSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True, source='comment_set')
 
     class Meta:
         model = Post
-        fields = ['post_id','post_text','post_image','created','likes']
+        fields = ['post_id','post_text','post_image','created','likes','comments']
 
     
 
