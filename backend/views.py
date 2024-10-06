@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializer import Signup, PostSerializer, UserSerializer
+from .serializer import Signup, PostSerializer, UserSerializer, CommentSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -188,7 +188,7 @@ class AllFriendsViewSet(viewsets.ViewSet):
 
 class DeleteFriend(viewsets.ViewSet):
 
-     @action(detail=True, method=['DELETE'])
+     @action(detail=True, method=['Delete'])
      def delete_friend(self,request,pk=None, friend_pk=None):
 
           user = User.objects.get(pk=pk)
@@ -199,3 +199,24 @@ class DeleteFriend(viewsets.ViewSet):
                return Response({"message":f"you friend {friend} is no more your friend which is sad"})
      
 
+class CommentViewSet(viewsets.ViewSet):
+
+     @action(detail=True, method=['Post'])
+     def comments(self, request, pk=None, post_pk=None, friend_pk=None):
+          user= User.objects.get(pk=pk)
+          post = Post.objects.get(pk=post_pk)
+          friend_comment = User.objects.get(pk=friend_pk)
+
+          if request.method == 'POST':
+               user_serializer = UserSerializer(user)
+               post_serializer = PostSerializer(post)
+
+               friend_comment_serializer = CommentSerializer(data=request.data)
+               if friend_comment_serializer.is_valid():
+                    friend_comment_serializer.save(user=friend_comment, post=post)
+
+                    return Response({"user":user_serializer.data,
+                                "post_serializer":post_serializer.data,
+                                "friend_comment": friend_comment_serializer.data
+                                }, status=status.HTTP_200_OK)
+               

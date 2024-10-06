@@ -19,6 +19,7 @@ urlpatterns = [
     path('friend_request/<int:pk>/<int:friend_pk>/', views.FriendRequestViewSet.as_view({'post':'friend_request'}), name='friend_request'),
     path('all_friends/<int:pk>/', views.AllFriendsViewSet.as_view({'get':'all_friends'}), name='all_friends'),
     path('delete_friend/<int:pk>/<int:friend_pk>/', views.DeleteFriend.as_view({'delete':'delete_friend'}), name='delete_friend'),
+    path('comments/<int:pk>/<int:post_pk>/<int:friend_pk>/', views.CommentViewSet.as_view({'post':'comments'}), name='comments'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
