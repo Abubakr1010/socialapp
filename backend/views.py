@@ -223,7 +223,8 @@ class CommentViewSet(viewsets.ViewSet):
                
  
 class UpdateCommentViewSet(viewsets.ViewSet):
-     @action(detail=True, method=['Put'])
+
+     @action(detail=True, method=['Put','Delete'])
      def update_comment(self,request, pk=None,post_pk=None, friend_pk=None, comment_pk=None):
 
           user = User.objects.get(pk=pk)
@@ -244,6 +245,13 @@ class UpdateCommentViewSet(viewsets.ViewSet):
 
                     return Response({"updated_friend_comment": updated_comment_serializer.data
                                 }, status=status.HTTP_200_OK)
+               
+          if request.method == 'DELETE':
+               comment.delete()
+               return Response({
+                    "message":f"you comment {comment.text} has beed deleted successfully"},
+                    status= status.HTTP_200_OK)
+                               
                     
 
 
