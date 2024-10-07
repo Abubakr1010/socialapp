@@ -150,6 +150,33 @@ SIMPLE_JWT = {
 
 
 
+# settings.py
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#         '__name__': {  # Use this to set logging for the specific module
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#         },
+#     },
+# }
+
+
+
+
+
+
 # # Amazon S3 settings
 # AWS_ACCESS_KEY_ID = 'AKIA5JMST3N3M2BRME4K'
 # AWS_SECRET_ACCESS_KEY = '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'

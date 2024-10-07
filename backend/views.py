@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import User, Post
+from .models import User, Post, Comment
 from django.shortcuts import get_object_or_404
 
 
@@ -220,3 +220,34 @@ class CommentViewSet(viewsets.ViewSet):
                                 "friend_comment": friend_comment_serializer.data
                                 }, status=status.HTTP_200_OK)
                
+               
+ 
+class UpdateCommentViewSet(viewsets.ViewSet):
+     @action(detail=True, method=['Put'])
+     def update_comment(self,request, pk=None,post_pk=None, friend_pk=None, comment_pk=None):
+
+          user = User.objects.get(pk=pk)
+          post = Post.objects.get(pk=post_pk)
+          friend = User.objects.get(pk=friend_pk)
+          comment = Comment.objects.get(pk=comment_pk)
+
+
+          if request.method == 'PUT':
+               user_serializer = UserSerializer(user)
+               friend_serializer = UserSerializer(friend)
+               post_serializer = PostSerializer(post)
+               updated_comment_serializer = CommentSerializer(comment, data=request.data)
+               
+               
+               if updated_comment_serializer.is_valid():
+                    updated_comment_serializer.save(user=friend, post=post)
+
+                    return Response({"updated_friend_comment": updated_comment_serializer.data
+                                }, status=status.HTTP_200_OK)
+                    
+
+
+
+
+# 
+
