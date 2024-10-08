@@ -252,10 +252,25 @@ class UpdateCommentViewSet(viewsets.ViewSet):
                     "message":f"you comment {comment.text} has beed deleted successfully"},
                     status= status.HTTP_200_OK)
                                
-                    
+
+class LikeViewSet(viewsets.ViewSet):
+
+     @action(detail=True, method='Post')
+     def like(self,request,pk=None,friend_pk=None,post_pk=None):
+
+          user = User.objects.get(pk=pk)
+          friend = User.objects.get(pk=friend_pk)
+          post = Post.objects.get(pk=post_pk)
+
+          if request.method == 'POST':
+               user_serializer = UserSerializer(user)
+               friend_serializer = UserSerializer(friend)
+               post_serializer = Post(post)
+
+               
 
 
 
 
-# 
+
 
