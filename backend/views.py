@@ -256,16 +256,27 @@ class UpdateCommentViewSet(viewsets.ViewSet):
 class LikeViewSet(viewsets.ViewSet):
 
      @action(detail=True, method='Post')
-     def like(self,request,pk=None,friend_pk=None,post_pk=None):
+     def likes(self,request,pk=None,friend_pk=None,post_pk=None):
 
           user = User.objects.get(pk=pk)
           friend = User.objects.get(pk=friend_pk)
           post = Post.objects.get(pk=post_pk)
 
-          if request.method == 'POST':
-               user_serializer = UserSerializer(user)
-               friend_serializer = UserSerializer(friend)
-               post_serializer = Post(post)
+          if post.likes.filter(pk=user.pk).exists():
+               post.likes.remove(user)
+               message = 'post unliked'
+          
+          else:
+               post.likes.add(user)
+
+          post.update_like_count()
+
+          post_serializer = PostSerializer(post)
+          return Response({"message":message,
+                           "post":post_serializer.data},
+                           status=status.HTTP_200_OK)
+          
+
 
                
 

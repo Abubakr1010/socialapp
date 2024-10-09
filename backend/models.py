@@ -63,6 +63,10 @@ class Post(models.Model):
     post_image = models.URLField(max_length=250, blank=True, null=True)
     likes = models.IntegerField(default=0)
 
+    def update_like_count(self):
+        self.like_count = self.like_count()
+        self.save
+
 # Comment Model
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
