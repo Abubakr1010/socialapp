@@ -61,7 +61,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     post_text = models.CharField(max_length=500, blank=True, null=True)
     post_image = models.URLField(max_length=250, blank=True, null=True)
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name='liked_post', blank=True)
 
     def update_like_count(self):
         self.like_count = self.like_count()
