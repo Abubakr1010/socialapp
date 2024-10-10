@@ -80,7 +80,7 @@ class HomeViewSet(viewsets.ViewSet):
         }, status=status.HTTP_200_OK)
 
 
-
+# Create Post View Set
 class CreatePostViewSet(viewsets.ViewSet):
      # permission_classes = [IsAuthenticated]
 
@@ -98,6 +98,7 @@ class CreatePostViewSet(viewsets.ViewSet):
           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
+# Single Post View Set 
 class SinglePostViewSet(viewsets.ViewSet):
      
      @action(detail=True, method=['Get','Delete'])
@@ -118,7 +119,7 @@ class SinglePostViewSet(viewsets.ViewSet):
                                status=status.HTTP_200_OK)
      
 
-
+# User Posts
 class UserAllPosts(viewsets.ViewSet):
      
      @action(detail=True, methods=['Get'])
@@ -134,7 +135,7 @@ class UserAllPosts(viewsets.ViewSet):
                            status=status.HTTP_200_OK)
      
 
-
+# Search View Set
 class SearchViewSet(viewsets.ViewSet):
      
      @action(detail=True, methods=['Post'])
@@ -152,6 +153,7 @@ class SearchViewSet(viewsets.ViewSet):
                           status=status.HTTP_200_OK)
 
 
+# Friend Request View Set
 class FriendRequestViewSet(viewsets.ViewSet):
 
      @action(detail=True, methods=['Post'])
@@ -168,7 +170,7 @@ class FriendRequestViewSet(viewsets.ViewSet):
           return Response({"Detail":f"Successfully {new_friend} added"}, status=status.HTTP_200_OK)
           
 
-          
+# All Friend View Set          
 class AllFriendsViewSet(viewsets.ViewSet):
      
      @action(detail=True, methods=['Get'])
@@ -186,6 +188,7 @@ class AllFriendsViewSet(viewsets.ViewSet):
                            }, status=status.HTTP_200_OK)
      
 
+# DeleteFriend
 class DeleteFriend(viewsets.ViewSet):
 
      @action(detail=True, method=['Delete'])
@@ -199,6 +202,7 @@ class DeleteFriend(viewsets.ViewSet):
                return Response({"message":f"you friend {friend} is no more your friend which is sad"})
      
 
+# ComementViewSet
 class CommentViewSet(viewsets.ViewSet):
 
      @action(detail=True, method=['Post'])
@@ -221,7 +225,7 @@ class CommentViewSet(viewsets.ViewSet):
                                 }, status=status.HTTP_200_OK)
                
                
- 
+# UpdateCommentViewSet 
 class UpdateCommentViewSet(viewsets.ViewSet):
 
      @action(detail=True, method=['Put','Delete'])
@@ -253,6 +257,7 @@ class UpdateCommentViewSet(viewsets.ViewSet):
                     status= status.HTTP_200_OK)
                                
 
+# LikeViewSet
 class LikeViewSet(viewsets.ViewSet):
 
      @action(detail=True, method='Post')
@@ -262,14 +267,17 @@ class LikeViewSet(viewsets.ViewSet):
           friend = User.objects.get(pk=friend_pk)
           post = Post.objects.get(pk=post_pk)
 
-          if post.likes.filter(pk=user.pk).exists():
+          if post.likes > 0 and post.likes.filter(pk=user.pk).exists():
                post.likes.remove(user)
+               post.likes -= 1
                message = 'post unliked'
           
           else:
                post.likes.add(user)
+               post.likes += 1
+               message = 'post liked'
 
-          post.update_like_count()
+          post.save()
 
           post_serializer = PostSerializer(post)
           return Response({"message":message,
@@ -278,7 +286,9 @@ class LikeViewSet(viewsets.ViewSet):
           
 
 
-               
+
+
+      
 
 
 

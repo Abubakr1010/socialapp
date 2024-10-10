@@ -23,7 +23,7 @@ urlpatterns = [
     path('update_comment/<int:pk>/<int:post_pk>/<int:friend_pk>/<int:comment_pk>/', views.UpdateCommentViewSet.as_view({'put':'update_comment',
                                                                                                                         'delete':'update_comment'}), 
                                                                                                                         name='update_comment'),
-    path('likes/<int:pk>/<int:friend_pk>/<int:post_pk>/',views.LikeViewSet.as_view({'post':'likes'}), name='likes'),
+    path('likes/<int:pk>/<int:friend_pk>/<int:post_pk>/likes',views.LikeViewSet.as_view({'post':'likes'}), name='likes'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
