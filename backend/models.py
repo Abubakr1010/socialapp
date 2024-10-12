@@ -65,8 +65,8 @@ class Post(models.Model):
 
 
     def update_like_count(self):
-        self.like_count = self.like_count()
-        self.save
+        self.like_count = self.likes_count()
+        self.save()
 
 # Comment Model
 class Comment(models.Model):
