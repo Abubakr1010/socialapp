@@ -120,10 +120,10 @@ class SinglePostViewSet(viewsets.ViewSet):
      
 
 # User Posts
-class UserAllPosts(viewsets.ViewSet):
+class Profile(viewsets.ViewSet):
      
      @action(detail=True, methods=['Get'])
-     def all_posts(self,request,pk=None):
+     def profile(self,request,pk=None):
           user = User.objects.get(pk=pk)
           posts = Post.objects.filter(user=user)
           serializer = PostSerializer(posts, many=True)
@@ -265,17 +265,42 @@ class LikeViewSet(viewsets.ViewSet):
 
           user = User.objects.get(pk=pk)
           post = Post.objects.get(pk=post_pk)
-          friend= request.data.get('id')
           like = request.data.get('likes')
 
 
           if like:
-               if post.likes.filter(id=user.id).exist():
+               if post.likes.filter(id=user.id).exists():
                     return Response({"message":"User already liked this post"}, status=status.HTTP_400_BAD_REQUEST)
                
                else:
-                    post.likes.add(User)
-                    
+                    post.likes.add(user)
+                    post.save()
+                    post_serializer=PostSerializer(post)
+                    return Response({'message':f'{user.first_name} liked',
+                                     'post':post_serializer.data,
+                                     'likes_count': post.likes.count()}, 
+                                     status=status.HTTP_200_OK)
+          
+          else:
+               if post.likes.filter(id=user.id).exists():
+                    post.likes.remove(user)
+                    post_serializer=PostSerializer(post)
+                    return Response({'message':f'{user.first_name} unliked the post',
+                                     'post':post_serializer.data,
+                                     'likes_count': post.likes.count()}, 
+                                      status=status.HTTP_200_OK)
+               
+          return Response({'post':post,
+                           'likes_count': post.likes.count()},
+                          status=status.HTTP_200_OK)
+          
+
+class SettingViewSet(viewsets.ViewSet):
+
+     def setting():
+         
+
+
 
 
          
