@@ -297,7 +297,7 @@ class LikeViewSet(viewsets.ViewSet):
 
 class SettingViewSet(viewsets.ViewSet):
 
-     def setting():
+     def setting(self,request,method='Post'):
          
 
 
