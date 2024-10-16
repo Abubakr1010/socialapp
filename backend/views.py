@@ -101,7 +101,7 @@ class CreatePostViewSet(viewsets.ViewSet):
 # Single Post View Set 
 class SinglePostViewSet(viewsets.ViewSet):
      
-     @action(detail=True, method=['Get','Delete'])
+     @action(detail=True, method=['Get','Delete','Put'])
      def single_post(self,request, pk=None, post_id=None):
           user = User.objects.get(pk=pk)
           post = Post.objects.get(pk=post_id, user=user)
@@ -112,6 +112,16 @@ class SinglePostViewSet(viewsets.ViewSet):
                                 "post":serializer.data
                                 },
                                 status=status.HTTP_200_OK)
+          
+          if request.method == 'PUT':
+               update_serializer = PostSerializer(post, data=request.data, partial=True)
+               if update_serializer.is_valid():
+                    update_serializer.save()
+                    return Response({"message":"updated",
+                                     "user":user.id,
+                                     "post":update_serializer.data},
+                               status=status.HTTP_200_OK)
+
           
           if request.method == 'DELETE':
                post.delete()
@@ -297,7 +307,21 @@ class LikeViewSet(viewsets.ViewSet):
 
 class SettingViewSet(viewsets.ViewSet):
 
-     def setting(self,request,method='Post'):
+     @action(detail=True, method='Put')
+     def update_name(self,request,pk=None):
+
+          user = User.objects.get(pk=pk)
+          serializer = UserSerializer(user, data=request.data, partial=True)
+          if serializer.is_valid():
+               serializer.save()
+               return Response({"message":"updated"},
+                          status=status.HTTP_200_OK)
+
+ 
+     
+
+
+
          
 
 
