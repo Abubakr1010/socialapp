@@ -10,7 +10,7 @@ class LoginViewSetTest(APITestCase):
     def setUp(self):
         # This method runs before each test
         self.create_user()
-        self.login_url = '/login/login/'
+        self.login_url = '/login/'
 
     def create_user(self):
         self.user = User.objects.create_user(

@@ -16,7 +16,7 @@ def test_if_user_signedin_return_201():
 
 
     client = APIClient()
-    url = reverse('signup-signup')
+    url = reverse('signup')
     data = {'first_name':first_name,
             'last_name':last_name,
             'email':email,
@@ -30,7 +30,7 @@ def test_if_user_signedin_return_201():
     user = User.objects.get(email=email)
 
     expected_data = {
-        "user_id":user.user_id,
+        "id":user.id,
         "first_name":user.first_name,
         "last_name":user.last_name,
         "email":user.email,
@@ -55,7 +55,7 @@ def test_if_already_registered_email_return_400():
 
 
     client = APIClient()
-    url = reverse('signup-signup')
+    url = reverse('signup')
     data = {
         'first_name':first_name,
         'last_name':last_name,
