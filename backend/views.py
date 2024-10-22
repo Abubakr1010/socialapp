@@ -305,6 +305,7 @@ class LikeViewSet(viewsets.ViewSet):
                           status=status.HTTP_200_OK)
           
 
+
 class SettingViewSet(viewsets.ViewSet):
 
      @action(detail=True, method='Put')
