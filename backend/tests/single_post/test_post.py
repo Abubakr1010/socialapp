@@ -8,7 +8,7 @@ from rest_framework import status
 
 class TestSinglePostView(APITestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.create_user()
         self.create_post()
         self.single_post_url= f'/single_post/{self.user.id}/{self.post.post_id}/'
